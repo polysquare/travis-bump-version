@@ -5,9 +5,12 @@ FILE
 GitHub
 PyPI
 REPO
+TRAVIS_REPO_SLUG
 bump
 bumpversion
 docstring
+env
+global
 pragma
 mjr
 repo

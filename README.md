@@ -1,6 +1,6 @@
 # Travis Bump Version
 
-Automatically bump version when merging to master
+Automatically bump version when merging to master.
 
 ## Status
 
@@ -24,3 +24,8 @@ Automatically bump version when merging to master
                             GitHub API token. Always make sure this variable is
                             encrypted first.
       --repo REPO           Name of repo on GitHub, eg user/repo.
+
+On Travis-CI you can use the `TRAVIS_REPO_SLUG` variable to determine
+the current repository. See [this guide](https://github.com/blog/1509-personal-api-tokens)
+on how to generate an API token. Remember to encrypt it first using
+`travis encrypt --add env.global` first!
