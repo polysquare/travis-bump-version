@@ -12,18 +12,18 @@ python:
 - pypy
 - pypy3
 install:
- - true
 #- eval $(curl -LSs --retry 100 --connect-timeout 3 public-travis-scripts.polysquare.org/bootstrap.py
   | python /dev/stdin -d container -s setup/python/setup.py -e bash -p /dev/stdout)
+- true
 script:
- - true
 #- polysquare_run check/python/check.py
+- true
 before_cache:
- - true
 #- polysquare_cleanup
+- true
 after_success:
- - true
 #- polysquare_run coverage/python/coverage.py
+- true
 before_deploy:
 - python setup.py install
 - echo $(pwd)
