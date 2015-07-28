@@ -103,6 +103,11 @@ def _last_tag_from_git(repo=""):
 
 def _call_bumpversion(level, files):
     """Call bumpversion to create commit and bump version."""
+    subprocess.check_call(["git", "config", "user.name", "Travis-CI"])
+    subprocess.check_call(["git",
+                           "config",
+                           "user.email",
+                           "travis@travis-ci.org"])
     subprocess.check_call([  # pragma: no cover
         "bumpversion",
         level
