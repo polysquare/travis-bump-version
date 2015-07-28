@@ -4,9 +4,9 @@ Automatically bump version when merging to master.
 
 ## Status
 
-| Travis CI (Ubuntu) | Coverage | PyPI Versions | Licence |
-|--------------------|----------|------|---------|
-|[![Travis](https://img.shields.io/travis/polysquare/travis-bump-version.svg)]()|[![Coveralls](https://img.shields.io/coveralls/polysquare/travis-bump-version.svg)]()|[![PyPIVersion](https://img.shields.io/pypi/v/travis-bump-version.svg)]()[![PyPIPythons](https://img.shields.io/pypi/pyversions/travis-bump-version.svg)]()|[![License](https://img.shields.io/github/license/polysquare/travis-bump-version.svg)]()|
+| Travis CI (Ubuntu) | Coverage | PyPI Versions | PyPI Pythons | Licence |
+|--------------------|----------|---------------|--------------|---------|
+|[![Travis](https://img.shields.io/travis/polysquare/travis-bump-version.svg)]()|[![Coveralls](https://img.shields.io/coveralls/polysquare/travis-bump-version.svg)]()|[![PyPIVersion](https://img.shields.io/pypi/v/travis-bump-version.svg)]()|[![PyPIPythons](https://img.shields.io/pypi/pyversions/travis-bump-version.svg)]()|[![License](https://img.shields.io/github/license/polysquare/travis-bump-version.svg)]()|
 
 ## Usage
 
