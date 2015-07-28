@@ -35,7 +35,7 @@ setup(name="travis-bump-version",
                     "testtools",
                     "six",
                     "setuptools-green"],
-          "polysquarelint": ["polysquare-setuptools-lint>=0.0.27"],
+          "polysquarelint": ["polysquare-setuptools-lint>=0.0.19"],
           "upload": ["setuptools-markdown"]
       },
       entry_points={
