@@ -111,9 +111,6 @@ def version_bump(api_token=None,
         error("""Need to specify some files""")
         return 1
 
-    if not _check_travis_yml():
-        return 1
-
     last_tag = _last_tag_from_git(repo)
 
     if not last_tag.startswith("v"):
