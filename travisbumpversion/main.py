@@ -120,10 +120,11 @@ def _call_bumpversion(level, files):
 
 def _push_commit_and_tags(api_token, repo):
     """Push most recent commit and tags to repo, using api_token."""
+    return
     subprocess.check_call(["git",  # pragma: no cover
                            "push",
-                           "https://{}@github.com/{}".format(api_token,
-                                                             repo),
+                           "https://{0}@github.com/{1}".format(api_token,
+                                                               repo),
                            "master",
                            "--tags"],
                           stdout=DEVNULL,
