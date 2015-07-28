@@ -15,7 +15,7 @@ from nose_parameterized import parameterized
 
 from six import StringIO
 
-from testtools import TestCase
+from testtools import ExpectedException, TestCase
 from testtools.matchers import Contains, MatchesAll
 
 import travisbumpversion.main
@@ -78,7 +78,10 @@ class TestAcceptance(TestCase):
 
     def test_bail_when_not_passing_api_token(self):
         """Raise when failing to pass --api-token."""
-        run("file", repo="user/repo")
+        with ExpectedException(RuntimeError):
+            sys.exit.side_effect = RuntimeError("")
+            run("file", repo="user/repo")
+
         output = sys.stderr.read()
         self.assertThat(output, MatchesAll(Contains("""--api-token"""),
                                            Contains("""required""")))
@@ -86,7 +89,10 @@ class TestAcceptance(TestCase):
 
     def test_bail_when_not_passing_repo(self):
         """Raise when failing to pass --repo."""
-        run("file", api_token="token")
+        with ExpectedException(RuntimeError):
+            sys.exit.side_effect = RuntimeError("")
+            run("file", api_token="token")
+
         output = sys.stderr.read()
         self.assertThat(output, MatchesAll(Contains("""--repo"""),
                                            Contains("""required""")))

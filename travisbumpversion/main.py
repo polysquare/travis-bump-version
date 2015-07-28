@@ -14,8 +14,6 @@ import subprocess
 
 import sys
 
-import yaml
-
 try:
     from subprocess import DEVNULL
 except ImportError:
