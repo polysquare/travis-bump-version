@@ -9,7 +9,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 setup(name="travis-bump-version",
-      version="0.0.19",
+      version="0.0.20",
       description="Bump version files on travis builds",
       long_description_markdown_filename="README.md",
       author="Sam Spilsbury",
@@ -35,7 +35,7 @@ setup(name="travis-bump-version",
                     "testtools",
                     "six",
                     "setuptools-green"],
-          "polysquarelint": ["polysquare-setuptools-lint>=0.0.19"],
+          "polysquarelint": ["polysquare-setuptools-lint>=0.0.20"],
           "upload": ["setuptools-markdown"]
       },
       entry_points={
