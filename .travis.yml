@@ -22,7 +22,7 @@ after_success:
 - polysquare_run coverage/python/coverage.py
 before_deploy:
 - pip install travis-bump-version
-- travis-bump-version --api-key ${REPO_API_KEY} --repo ${TRAVIS_REPO_SLUG}
+- travis-bump-version --api-token ${REPO_API_KEY} --repo ${TRAVIS_REPO_SLUG}
 - polysquare_run deploy/python/deploy.py
 deploy:
   provider: pypi
