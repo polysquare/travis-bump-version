@@ -31,7 +31,7 @@ before_deploy:
 - git describe --tags
 - pip install travis-bump-version
 - travis-bump-version setup.py --api-token ${REPO_API_KEY} --repo ${TRAVIS_REPO_SLUG}
-- git push --tags http://${REPO_API_KEY}@github.com/${TRAVIS_REPO_SLUG}
+- git push --tags https://${REPO_API_KEY}@github.com/${TRAVIS_REPO_SLUG}
 - polysquare_run deploy/python/deploy.py
 deploy:
   provider: pypi
