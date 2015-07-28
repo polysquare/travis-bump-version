@@ -3,6 +3,9 @@ sudo: false
 cache:
   directories:
   - container
+branches:
+  except:
+  - /^v[0-9].*/
 python:
 - '2.7'
 - '3.4'
@@ -19,6 +22,8 @@ after_success:
 - polysquare_run coverage/python/coverage.py
 before_deploy:
 - polysquare_run deploy/python/deploy.py
+- pip install travis-bump-version
+- travis-bump-version --api-key ${REPO_API_KEY} --repo ${TRAVIS_REPO_SLUG}
 deploy:
   provider: pypi
   user:
@@ -28,3 +33,6 @@ deploy:
   on:
     repo: polysquare/travis-bump-version
     branch: master
+env:
+  global:
+    secure: f7OGD1IG6bIjc0g6n7rBLRJxNAVQZkNqrQLZgGXWN1ZDzSxPAihyeb7pc1HrSwMSlQ85PDkBv+gNAHXT8MKNd6o+20oKp7LeJjJDvzBwnHY+eOoAH+aBWFYODJTcoYEjewcYqj1XffXZUoIxeMat7hqo3glovPuely55uVKfp2lmlVzQv3t5pWaIkpjDxWqg3MTDrORFNNLyAdmBE/uZ5iHksHlIcpaFheyFTLV4Xr5XQzUc8jiEltNYYAgE5nmssjW6pjYmgQJV4RC1ncMlhOons+ODXvmL9SGgU+nnSNPkoHMArypOIkwBSAQOYmbxIlsYfjbVW6yYtyhs5jrKk5g3N2Y7psAb3GLhlyOVVJQVJUB56qBq03QEC0s5/8JV9OUWzRj0VRaBcg0mIibP+sTc7bJB6sh0rPM+3WezzkU2aauiPjaE9L5e73fIQGctQ3aXTIGtfhobN4yDTso1to4fQZncyg09S7zVUT5mq8mAX4yTqQCj2J7XnuEF9MXXyYb36vwIM1RIVGnlrKGHvqngL2l9YcqtnNINw64tif/Mvbi/PiVXDchHZgxtqqCeOMGgcwUzvIEsMbcwcpjbVXSqb7dFHjc6NL1EvEqew1A3hdYZpFM7aGhumhOG8v+WgMNcFMlvAutC8AYrjIltvWgvm3ChZMjGAD4ctv3gB1Y=
