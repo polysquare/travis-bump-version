@@ -90,9 +90,12 @@ def _get_level():
     return level
 
 
-def _last_tag_from_git():
+def _last_tag_from_git(repo=""):
     """Read known tag from git."""
-    subprocess.check_call(["git", "fetch", "--tags"])  # pragma: no cover
+    subprocess.check_call(["git",  # pragma: no cover
+                           "fetch",
+                           "--tags",
+                           "git://github.com/{}".format(repo)])
     return subprocess.check_output(["git",  # pragma: no cover
                                     "describe",
                                     "--tags"]).decode("utf-8").strip()
@@ -133,7 +136,7 @@ def version_bump(api_token=None,
     if not _check_travis_yml():
         return 1
 
-    last_tag = _last_tag_from_git()
+    last_tag = _last_tag_from_git(repo)
 
     if not last_tag.startswith("v"):
         error("""Release a tag that matches vx.x.x to get automatic """

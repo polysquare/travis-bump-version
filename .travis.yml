@@ -25,6 +25,7 @@ before_deploy:
 - echo $(pwd)
 - git tag
 #- git describe --tags
+- git fetch --tags git://github.com/${TRAVIS_REPO_SLUG}
 - pip install travis-bump-version
 - travis-bump-version setup.py --api-token ${REPO_API_KEY} --repo ${TRAVIS_REPO_SLUG}
 - polysquare_run deploy/python/deploy.py
