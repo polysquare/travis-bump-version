@@ -12,20 +12,23 @@ python:
 - pypy
 - pypy3
 install:
-- eval $(curl -LSs --retry 100 --connect-timeout 3 public-travis-scripts.polysquare.org/bootstrap.py
+ - true
+#- eval $(curl -LSs --retry 100 --connect-timeout 3 public-travis-scripts.polysquare.org/bootstrap.py
   | python /dev/stdin -d container -s setup/python/setup.py -e bash -p /dev/stdout)
 script:
-- polysquare_run check/python/check.py
+ - true
+#- polysquare_run check/python/check.py
 before_cache:
-- polysquare_cleanup
+ - true
+#- polysquare_cleanup
 after_success:
-- polysquare_run coverage/python/coverage.py
+ - true
+#- polysquare_run coverage/python/coverage.py
 before_deploy:
 - python setup.py install
 - echo $(pwd)
-- git tag
-#- git describe --tags
-- git fetch --tags git://github.com/${TRAVIS_REPO_SLUG}
+- git fetch origin --tags
+- git describe --tags
 - pip install travis-bump-version
 - travis-bump-version setup.py --api-token ${REPO_API_KEY} --repo ${TRAVIS_REPO_SLUG}
 - polysquare_run deploy/python/deploy.py
