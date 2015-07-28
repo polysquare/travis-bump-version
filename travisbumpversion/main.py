@@ -92,6 +92,7 @@ def _get_level():
 
 def _last_tag_from_git(repo=""):
     """Read known tag from git."""
+    subprocess.check_call(["git", "checkout", "master"])  # pragma: no cover
     subprocess.check_call(["git",  # pragma: no cover
                            "fetch",
                            "--tags",
@@ -103,8 +104,11 @@ def _last_tag_from_git(repo=""):
 
 def _call_bumpversion(level, files):
     """Call bumpversion to create commit and bump version."""
-    subprocess.check_call(["git", "config", "user.name", "Travis-CI"])
-    subprocess.check_call(["git",
+    subprocess.check_call(["git",  # pragma: no cover
+                           "config",
+                           "user.name",
+                           "Travis-CI"])
+    subprocess.check_call(["git",  # pragma: no cover
                            "config",
                            "user.email",
                            "travis@travis-ci.org"])
@@ -120,7 +124,6 @@ def _call_bumpversion(level, files):
 
 def _push_commit_and_tags(api_token, repo):
     """Push most recent commit and tags to repo, using api_token."""
-    return
     subprocess.check_call(["git",  # pragma: no cover
                            "push",
                            "https://{0}@github.com/{1}".format(api_token,
