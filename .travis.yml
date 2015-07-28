@@ -21,6 +21,8 @@ before_cache:
 after_success:
 - polysquare_run coverage/python/coverage.py
 before_deploy:
+- echo $(pwd)
+- git describe --tags
 - pip install travis-bump-version
 - travis-bump-version setup.py --api-token ${REPO_API_KEY} --repo ${TRAVIS_REPO_SLUG}
 - polysquare_run deploy/python/deploy.py
