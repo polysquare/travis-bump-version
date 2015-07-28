@@ -1,0 +1,21 @@
+language: python
+sudo: false
+cache:
+  directories:
+  - container
+python:
+- '2.7'
+- '3.4'
+- pypy
+- pypy3
+install:
+- eval $(curl -LSs --retry 100 --connect-timeout 3 public-travis-scripts.polysquare.org/bootstrap.py
+  | python /dev/stdin -d container -s setup/python/setup.py -e bash -p /dev/stdout)
+script:
+- polysquare_run check/python/check.py
+before_cache:
+- polysquare_cleanup
+after_success:
+- polysquare_run coverage/python/coverage.py
+before_deploy:
+- polysquare_run deploy/python/deploy.py
