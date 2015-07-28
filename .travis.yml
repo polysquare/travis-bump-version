@@ -27,7 +27,7 @@ after_success:
 before_deploy:
 - python setup.py install
 - echo $(pwd)
-- git pull origin --tags
+- git fetch origin --tags
 - git describe --tags
 - pip install travis-bump-version
 - travis-bump-version setup.py --api-token ${REPO_API_KEY} --repo ${TRAVIS_REPO_SLUG}
