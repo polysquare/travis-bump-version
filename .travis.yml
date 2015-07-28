@@ -3,9 +3,6 @@ sudo: false
 cache:
   directories:
   - container
-branches:
-  except:
-  - /^v[0-9].*/
 python:
 - '2.7'
 - '3.4'

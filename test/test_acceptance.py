@@ -5,15 +5,9 @@
 # See /LICENCE.md for Copyright information
 """Acceptance tests for travis-bump-version."""
 
-import os
-
-import shutil
-
 import subprocess
 
 import sys
-
-import tempfile
 
 from mock import Mock, call
 
@@ -25,8 +19,6 @@ from testtools import TestCase
 from testtools.matchers import Contains, MatchesAll
 
 import travisbumpversion.main
-
-import yaml
 
 
 def run(*args, **kwargs):
@@ -44,22 +36,6 @@ def run(*args, **kwargs):
     finally:
         sys.stderr.seek(0)
         sys.stdout.seek(0)
-
-
-def _write_travis_yml():
-    """Write correctly formed /.travis.yml file."""
-    options = {
-        "branches": {
-            "except": [
-                "/^v[0-9].*/"
-            ]
-        }
-    }
-
-    assert not os.path.exists(".travis.yml")
-
-    with open(".travis.yml", "w") as travis_yml:
-        yaml.dump(options, travis_yml)
 
 
 def _format_with_args(func, num, params):
@@ -100,13 +76,6 @@ class TestAcceptance(TestCase):
         self.patch(sys, "stdout", StringIO())
         self.patch(sys, "stderr", StringIO())
 
-        last_directory = os.getcwd()
-        temp_dir = tempfile.mkdtemp(dir=last_directory,
-                                    prefix="bumpversionacceptance")
-        os.chdir(temp_dir)
-        self.addCleanup(lambda: os.chdir(last_directory))
-        self.addCleanup(lambda: shutil.rmtree(temp_dir))
-
     def test_bail_when_not_passing_api_token(self):
         """Raise when failing to pass --api-token."""
         run("file", repo="user/repo")
@@ -130,42 +99,8 @@ class TestAcceptance(TestCase):
                         Contains("""Need to specify some files"""))
         self.assertEqual(call(1), sys.exit.call_args_list[0])
 
-    def test_bail_when_travis_yml_doesnt_exist(self):
-        """Raise when /.travis.yml doesn't exist."""
-        run("file", api_token="token", repo="user/repo")
-        self.assertThat(sys.stderr.read(),
-                        Contains("""Need to be able to read /.travis.yml"""))
-        self.assertEqual(call(1), sys.exit.call_args_list[0])
-
-    def test_bail_when_travis_yml_doesnt_contain_except_specifier(self):
-        """Raise when /.travis.yml doesn't contain except specifier."""
-        with open(".travis.yml", "w"):
-            pass
-
-        run("file", api_token="token", repo="user/repo")
-        self.assertThat(sys.stderr.read(),
-                        Contains("""Need to have branches:"""))
-        self.assertEqual(call(1), sys.exit.call_args_list[0])
-
-    def test_bail_when_needed_except_specifiers_not_in_specifiers(self):
-        """Raise when /.travis.yml's branches: except doesn't have our reg."""
-        with open(".travis.yml", "w") as travis_yml:
-            yaml.dump({
-                "branches": {
-                    "except": [
-                        ""
-                    ]
-                }
-            }, travis_yml)
-
-        run("file", api_token="token", repo="user/repo")
-        self.assertThat(sys.stderr.read(),
-                        Contains("""Need to have branches:"""))
-        self.assertEqual(call(1), sys.exit.call_args_list[0])
-
     def test_bail_when_not_last_tag_doesnt_start_with_v(self):
         """Raise when last tag doesn't start with v."""
-        _write_travis_yml()
         self.last_tag_from_git.return_value = "x0.0.1"
         run("file", api_token="token", repo="user/repo")
         self.assertThat(sys.stderr.read(),
@@ -174,7 +109,6 @@ class TestAcceptance(TestCase):
 
     def test_use_patch_by_default_for_empty_body(self):
         """Use level patch by default for empty commit message body."""
-        _write_travis_yml()
         self.last_tag_from_git.return_value = "v0.0.1"
         self.last_commit_message_body.return_value = ""
         run("file", api_token="token", repo="user/repo")
@@ -183,7 +117,6 @@ class TestAcceptance(TestCase):
 
     def test_use_patch_by_default_for_body_with_no_code(self):
         """Use level patch by default commit message body with no code."""
-        _write_travis_yml()
         self.last_tag_from_git.return_value = "v0.0.1"
         self.last_commit_message_body.return_value = "Title\n\nBody"
         run("file", api_token="token", repo="user/repo")
@@ -192,7 +125,6 @@ class TestAcceptance(TestCase):
 
     def test_use_patch_level_for_malformed_bumpversion_code(self):
         """Use level patch when bumpversion code is malformed."""
-        _write_travis_yml()
         self.last_tag_from_git.return_value = "v0.0.1"
         self.last_commit_message_body.return_value = "T\n\nbumpversion: mjr"
         run("file", api_token="token", repo="user/repo")
@@ -201,7 +133,6 @@ class TestAcceptance(TestCase):
 
     def test_complain_for_malformed_bumpversion_code(self):
         """Complain when bumpversion code is malformed."""
-        _write_travis_yml()
         self.last_tag_from_git.return_value = "v0.0.1"
         self.last_commit_message_body.return_value = "T\n\nbumpversion: mjr"
         run("file", api_token="token", repo="user/repo")
@@ -211,7 +142,6 @@ class TestAcceptance(TestCase):
                           testcase_func_doc=_format_with_args)
     def test_use_valid_bumpversion_code(self, lvl):
         """Use level {0} when bumpversion code is set to {0}."""
-        _write_travis_yml()
         self.last_tag_from_git.return_value = "v0.0.1"
         self.last_commit_message_body.return_value = "T\n\nbumpversion: " + lvl
         run("file", api_token="token", repo="user/repo")
@@ -220,7 +150,6 @@ class TestAcceptance(TestCase):
 
     def test_push_commit_and_tags_success(self):
         """Push commit and tags with provided token and repo."""
-        _write_travis_yml()
         self.last_tag_from_git.return_value = "v0.0.1"
         self.last_commit_message_body.return_value = ""
         run("file", api_token="token", repo="user/repo")
@@ -229,7 +158,6 @@ class TestAcceptance(TestCase):
 
     def test_push_commit_and_tags_complain_on_failure(self):
         """Push commit and tags with provided token and repo."""
-        _write_travis_yml()
         self.last_tag_from_git.return_value = "v0.0.1"
         self.last_commit_message_body.return_value = ""
         error = subprocess.CalledProcessError(1, 1)

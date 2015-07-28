@@ -28,39 +28,6 @@ def error(message):
     sys.stderr.write("{}\n".format(message))
 
 
-def _print_except_specifier_message():
-    """Print message about how the user needs an except specifier."""
-    # B901 is matched within these quotes
-    #
-    # suppress(B901)
-    error("""bumpversion: Need to have branches: except: - /^v[0.9].*/ """
-          """in /.travis.yml, otherwise it is not safe to push new tags """
-          """without a build-loop.""")
-
-
-def _check_travis_yml():
-    """Check /.travis.yml to see if it is safe to do version bumps."""
-    try:
-        with open(".travis.yml", "r") as travis_yml:
-            travis_config = yaml.load(travis_yml.read())
-    except IOError:
-        error("""bumpversion: Need to be able to read /.travis.yml to """
-              """determine if safe to do automatic version bumps.""")
-        return False
-
-    try:
-        except_specifiers = travis_config["branches"]["except"]
-    except (KeyError, TypeError):
-        _print_except_specifier_message()
-        return False
-
-    if "/^v[0-9].*/" not in except_specifiers:
-        _print_except_specifier_message()
-        return False
-
-    return True
-
-
 def _last_commit_message_body():
     """Read body of last commit message from git."""
     return subprocess.check_output(["git",  # pragma: no cover
@@ -117,6 +84,8 @@ def _call_bumpversion(level, files):
         level
     ] + list(files) + [
         "--commit",
+        "--commit-msg",
+        "Bump version: {current_version} → {new_version}\n\n[ci skip]"
         "--tag",
         "--verbose"
     ])
