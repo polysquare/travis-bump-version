@@ -92,7 +92,7 @@ def _get_level():
 
 def _last_tag_from_git():
     """Read known tag from git."""
-    subprocess.check_call(["git", "fetch", "--tags"])
+    subprocess.check_call(["git", "fetch", "--tags"])  # pragma: no cover
     return subprocess.check_output(["git",  # pragma: no cover
                                     "describe",
                                     "--tags"]).decode("utf-8").strip()

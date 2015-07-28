@@ -21,6 +21,7 @@ before_cache:
 after_success:
 - polysquare_run coverage/python/coverage.py
 before_deploy:
+- python setup.py install
 - echo $(pwd)
 - git tag
 - git describe --tags
