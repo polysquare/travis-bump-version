@@ -85,7 +85,7 @@ def _call_bumpversion(level, files):
     ] + list(files) + [
         "--commit",
         "--commit-msg",
-        "Bump version: {current_version} → {new_version}\n\n[ci skip]"
+        "Bump version: {current_version} -> {new_version}\n\n[ci skip]"
         "--tag",
         "--verbose"
     ])
