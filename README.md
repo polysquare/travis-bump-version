@@ -6,7 +6,7 @@ Automatically bump version when merging to master
 
 | Travis CI (Ubuntu) | Coverage | PyPI | Licence |
 |--------------------|----------|------|---------|
-|[![Travis](https://img.shields.io/travis/polysquare/travis-bump-version.svg)]()|[![AppVeyor](https://img.shields.io/appveyor/ci/polysquare/travis-bump-version.svg)]()|[![Coveralls](https://img.shields.io/coveralls/polysquare/travis-bump-version.svg)]()|[![PyPI](https://img.shields.io/pypi/v/travis-bump-version.svg)]()[![PyPI](https://img.shields.io/pypi/pyversions/travis-bump-version.svg)]()|[![License](https://img.shields.io/github/license/polysquare/travis-bump-version.svg)]()|
+|[![Travis](https://img.shields.io/travis/polysquare/travis-bump-version.svg)]()|[![Coveralls](https://img.shields.io/coveralls/polysquare/travis-bump-version.svg)]()|[![PyPI](https://img.shields.io/pypi/v/travis-bump-version.svg)]()[![PyPI](https://img.shields.io/pypi/pyversions/travis-bump-version.svg)]()|[![License](https://img.shields.io/github/license/polysquare/travis-bump-version.svg)]()|
 
 ## Usage
 
