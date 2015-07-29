@@ -4,9 +4,9 @@ Automatically bump version when merging to master.
 
 ## Status
 
-| Travis CI (Ubuntu) | Coverage | PyPI Versions | PyPI Pythons | Licence |
-|--------------------|----------|---------------|--------------|---------|
-|[![Travis](https://img.shields.io/travis/polysquare/travis-bump-version.svg)]()|[![Coveralls](https://img.shields.io/coveralls/polysquare/travis-bump-version.svg)]()|[![PyPIVersion](https://img.shields.io/pypi/v/travis-bump-version.svg)]()|[![PyPIPythons](https://img.shields.io/pypi/pyversions/travis-bump-version.svg)]()|[![License](https://img.shields.io/github/license/polysquare/travis-bump-version.svg)]()|
+| Travis CI (Ubuntu) | Coverage | PyPI | Licence |
+|--------------------|----------|------|---------|
+|[![Travis](https://img.shields.io/travis/polysquare/travis-bump-version.svg)](http://travis-ci.org/polysquare/travis-bump-version)|[![Coveralls](https://img.shields.io/coveralls/polysquare/travis-bump-version.svg)](http://coveralls.io/polysquare/travis-bump-version)|[![PyPIVersion](https://img.shields.io/pypi/v/travis-bump-version.svg)](https://pypi.python.org/pypi/travis-bump-version)[![PyPIPythons](https://img.shields.io/pypi/pyversions/travis-bump-version.svg)](https://pypi.python.org/pypi/travis-bump-version)|[![License](https://img.shields.io/github/license/polysquare/travis-bump-version.svg)](http://github.com/polysquare/travis-bump-version)|
 
 ## Usage
 
