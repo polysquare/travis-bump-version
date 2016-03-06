@@ -5,8 +5,6 @@
 # See /LICENCE.md for Copyright information
 """Acceptance tests for travis-bump-version."""
 
-import subprocess
-
 import sys
 
 from mock import Mock, call
@@ -16,7 +14,7 @@ from nose_parameterized import parameterized
 from six import StringIO
 
 from testtools import ExpectedException, TestCase
-from testtools.matchers import Contains, MatchesAll
+from testtools.matchers import Contains, MatchesAll, Not
 
 import travisbumpversion.main
 
@@ -46,7 +44,6 @@ def _format_with_args(func, num, params):
 
 
 class TestAcceptance(TestCase):
-
     """Acceptance tests for travis-bump-version."""
 
     def __init__(self, *args, **kwargs):
@@ -166,8 +163,30 @@ class TestAcceptance(TestCase):
         """Push commit and tags with provided token and repo."""
         self.last_tag_from_git.return_value = "v0.0.1"
         self.last_commit_message_body.return_value = ""
-        error = subprocess.CalledProcessError(1, 1)
+        error = RuntimeError("""Failed""")
         self.push_commit_and_tags.side_effect = error
         run("file", api_token="token", repo="user/repo")
         self.assertThat(sys.stderr.read(), Contains("""Failed to push"""))
+        self.assertEqual(call(0), sys.exit.call_args_list[0])
+
+    def test_push_commit_fail_contains_git_reasons(self):
+        """Failed push reports why git push failed."""
+        self.last_tag_from_git.return_value = "v0.0.1"
+        self.last_commit_message_body.return_value = ""
+        error = RuntimeError("""Git reasons""")
+        self.push_commit_and_tags.side_effect = error
+        run("file", api_token="token", repo="user/repo")
+        self.assertThat(sys.stderr.read(), Contains("""Git reasons"""))
+        self.assertEqual(call(0), sys.exit.call_args_list[0])
+
+    def test_push_failure_dont_disclose_api_key(self):
+        """Don't disclose API keys on push failure."""
+        self.last_tag_from_git.return_value = "v0.0.1"
+        self.last_commit_message_body.return_value = ""
+        error = RuntimeError("""Failed token""")
+        self.push_commit_and_tags.side_effect = error
+        run("file", api_token="token", repo="user/repo")
+        stderr_output = sys.stderr.read()
+        self.assertThat(stderr_output, Not(Contains("token")))
+        self.assertThat(stderr_output, Contains("[redacted]"))
         self.assertEqual(call(0), sys.exit.call_args_list[0])
