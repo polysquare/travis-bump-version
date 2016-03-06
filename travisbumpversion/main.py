@@ -92,7 +92,8 @@ def _call_bumpversion(level, files):
 # pragma: no cover
 def _push_commit_and_tags(api_token, repo):
     """Push most recent commit and tags to repo, using api_token."""
-    url = "https://{0}@github.com/{1}".format(api_token, repo)
+    url = "https://{0}:x-oauth-basic@github.com/{1}.git".format(api_token,
+                                                                repo[:-1])
     process = subprocess.Popen(["git",
                                 "push",
                                 url,
