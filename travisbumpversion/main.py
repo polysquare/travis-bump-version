@@ -89,16 +89,26 @@ def _call_bumpversion(level, files):
     ])
 
 
+# pragma: no cover
 def _push_commit_and_tags(api_token, repo):
     """Push most recent commit and tags to repo, using api_token."""
-    subprocess.check_call(["git",  # pragma: no cover
-                           "push",
-                           "https://{0}@github.com/{1}".format(api_token,
-                                                               repo),
-                           "master",
-                           "--tags"],
-                          stdout=DEVNULL,
-                          stderr=DEVNULL)
+    url = "https://{0}@github.com/{1}".format(api_token, repo)
+    process = subprocess.Popen(["git",
+                                "push",
+                                url,
+                                "master",
+                                "--tags"],
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+
+    stdout, stderr = process.communicate()
+
+    if process.returncode != 0:
+        raise RuntimeError("""Failed with {returncode}, """
+                           """{stdout} {stderr}"""
+                           """""".format(returncode=process.returncode,
+                                         stdout=stdout,
+                                         stderr=stderr))
 
 
 def version_bump(api_token=None,
@@ -120,9 +130,10 @@ def version_bump(api_token=None,
 
     try:
         _push_commit_and_tags(api_token, repo)
-    except subprocess.CalledProcessError:
+    except RuntimeError as exception:
         error("""bumpversion: Failed to push commit, assuming that another """
-              """job was able to push it first.""")
+              """job was able to push it first. The reason given was:\n"""
+              """{}""".format(str(exception).replace(api_token, "[redacted]")))
 
     return 0
 
