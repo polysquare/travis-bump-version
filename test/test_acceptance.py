@@ -44,7 +44,6 @@ def _format_with_args(func, num, params):
 
 
 class TestAcceptance(TestCase):
-
     """Acceptance tests for travis-bump-version."""
 
     def __init__(self, *args, **kwargs):
