@@ -15,7 +15,7 @@ import subprocess
 import sys
 
 try:
-    from subprocess import DEVNULL
+    from subprocess import DEVNULL  # suppress(ungrouped-imports)
 except ImportError:
     DEVNULL = open(os.devnull, "wb")
     atexit.register(DEVNULL.close)
