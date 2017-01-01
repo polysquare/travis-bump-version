@@ -159,4 +159,4 @@ def main(arguments=None):  # suppress(unused-function)
                         help="""bump version on FILE""")
     result = parser.parse_args(arguments or sys.argv[1:])
 
-    sys.exit(version_bump(**vars(result)))
+    sys.exit(version_bump(**vars(result)))  # suppress(E204)
